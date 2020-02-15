@@ -1,7 +1,7 @@
 #!/usr/local/bin/python3
 import os
-PROFILE = """DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-export PATH=${PATH}:${DIR}/exp
+PROFILE = """BASH_DIRNAME="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+export PATH=${PATH}:${BASH_DIRNAME}/exp
 """
 RUN = """#!/usr/local/bin/python3
 import os
