@@ -1,0 +1,6 @@
+#!/bin/sh
+if [ $# -ge 1 ]; then
+	find $1 -name '.DS_Store' -type f -print -exec rm -rf {} \;
+else
+	echo 'which dir do you want to rm?'
+fi
