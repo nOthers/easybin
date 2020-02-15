@@ -1,0 +1,41 @@
+#!/usr/local/bin/python3
+import os
+PROFILE = """DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+export PATH=${PATH}:${DIR}/exp
+"""
+RUN = """#!/usr/local/bin/python3
+import os
+import site
+site.addsitedir(os.path.join(os.path.realpath(__file__), '..', '..'))
+if __name__ == '__main__':
+    print('Hello World!')
+"""
+
+
+def create_project(root):
+    """create a project directory structure, as below:
+        .
+        ├── exp
+        │ └── run
+        ├── foo
+        │ └── __init__.py
+        └── profile
+    """
+    root = os.path.realpath(root)
+    os.makedirs(root)
+    profile_path = os.path.join(root, 'profile')
+    with open(profile_path, mode='w') as f:
+        f.write(PROFILE)
+    os.mkdir(os.path.join(root, 'exp'))
+    run_path = os.path.join(root, 'exp', 'run')
+    with open(run_path, mode='w') as f:
+        f.write(RUN)
+    os.system(f'chmod 775 {run_path}')
+
+
+if __name__ == '__main__':
+    import argparse
+    parser = argparse.ArgumentParser()
+    parser.add_argument('path', nargs=1, help='project root directory')
+    argument = parser.parse_args()
+    create_project(argument.path[0])
