@@ -1,9 +1,9 @@
-#!/usr/local/bin/python3
+#!/usr/bin/env python3
 import os
 PROFILE = """BASH_DIRNAME="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 export PATH=${PATH}:${BASH_DIRNAME}/exp
 """
-RUN = """#!/usr/local/bin/python3
+RUN = """#!/usr/bin/env python3
 import os
 import site
 site.addsitedir(os.path.join(os.path.realpath(__file__), '..', '..'))
