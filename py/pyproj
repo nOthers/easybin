@@ -3,12 +3,21 @@ import os
 PROFILE = """BASH_DIRNAME="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 export PATH=${PATH}:${BASH_DIRNAME}/exp
 """
+MAIN = """def main(*args):
+    print('Hello World!')
+"""
 RUN = """#!/usr/bin/env python3
 import os
 import site
 site.addsitedir(os.path.join(os.path.realpath(__file__), '..', '..'))
 if __name__ == '__main__':
-    print('Hello World!')
+    import argparse
+    parser = argparse.ArgumentParser()
+    parser.add_argument('args', nargs='*', help='Arguments passed to the function')
+    parser.add_argument('-m', '--module', default='main', help='Module to execute [default: main]')
+    parser.add_argument('-f', '--function', default='main', help='Function to execute [default: main]')
+    args = parser.parse_args()
+    getattr(__import__(args.module), args.function)(*args.args)
 """
 
 
@@ -17,8 +26,7 @@ def create_project(root):
         .
         ├── exp
         │ └── run
-        ├── foo
-        │ └── __init__.py
+        ├── main.py
         └── profile
     """
     root = os.path.realpath(root)
@@ -26,6 +34,9 @@ def create_project(root):
     profile_path = os.path.join(root, 'profile')
     with open(profile_path, mode='w') as f:
         f.write(PROFILE)
+    main_path = os.path.join(root, 'main.py')
+    with open(main_path, mode='w') as f:
+        f.write(MAIN)
     os.mkdir(os.path.join(root, 'exp'))
     run_path = os.path.join(root, 'exp', 'run')
     with open(run_path, mode='w') as f:
@@ -36,6 +47,6 @@ def create_project(root):
 if __name__ == '__main__':
     import argparse
     parser = argparse.ArgumentParser()
-    parser.add_argument('path', nargs=1, help='project root directory')
-    argument = parser.parse_args()
-    create_project(argument.path[0])
+    parser.add_argument('path', nargs=1, help='Project root directory')
+    args = parser.parse_args()
+    create_project(args.path[0])
