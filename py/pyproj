@@ -17,7 +17,7 @@ if __name__ == '__main__':
     parser.add_argument('-m', '--module', default='main', help='Module to execute [default: main]')
     parser.add_argument('-f', '--function', default='main', help='Function to execute [default: main]')
     args = parser.parse_args()
-    getattr(__import__(args.module), args.function)(*args.args)
+    getattr(__import__(args.module, fromlist=True), args.function)(*args.args)
 """
 
 
