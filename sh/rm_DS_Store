@@ -1,4 +1,4 @@
-#!/usr/bin/env sh
+#!/usr/bin/env bash
 if [ $# -ge 1 ]; then
 	find $1 -name '.DS_Store' -type f -print -exec rm -rf {} \;
 else

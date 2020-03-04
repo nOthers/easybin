@@ -1,4 +1,4 @@
-#!/usr/bin/env sh
+#!/usr/bin/env bash
 if [ $# -ge 1 ]; then
 	find $1 -name '__pycache__' -type d -print -exec rm -rf {} \;
 else
