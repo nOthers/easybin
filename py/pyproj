@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 import os
 PROFILE = """BASH_DIRNAME="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-export PATH=${PATH}:${BASH_DIRNAME}/exp
+export PATH=${PATH}:${BASH_DIRNAME}/bin
 """
 MAIN = """def main(*args):
     print('Hello World!')
@@ -24,7 +24,7 @@ if __name__ == '__main__':
 def create_project(root):
     """create a project directory structure, as below:
         .
-        ├── exp
+        ├── bin
         │ └── run
         ├── main.py
         └── profile
@@ -37,8 +37,8 @@ def create_project(root):
     main_path = os.path.join(root, 'main.py')
     with open(main_path, mode='w') as f:
         f.write(MAIN)
-    os.mkdir(os.path.join(root, 'exp'))
-    run_path = os.path.join(root, 'exp', 'run')
+    os.mkdir(os.path.join(root, 'bin'))
+    run_path = os.path.join(root, 'bin', 'run')
     with open(run_path, mode='w') as f:
         f.write(RUN)
     os.system(f'chmod 775 {run_path}')
